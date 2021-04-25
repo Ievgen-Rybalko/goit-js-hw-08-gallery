@@ -103,6 +103,7 @@ body {
 }
 
 .lightbox__image {
+  position: relative;
   display: block;
   width: auto;
   height: auto;
@@ -111,9 +112,10 @@ body {
 }
 
 .lightbox__button {
-  position: absolute;
+  position: relative;
   top: 8px;
   right: 8px;
+  transform: translateY(calc(-50vh + 18px));
   display: flex;
   align-items: center;
   justify-content: center;
