@@ -32,6 +32,11 @@ const lightBoxRef = document.querySelector('.js-lightbox');
 const imgInModalShow = document.querySelector('.lightbox__image');
 
 function onPictureClick(e) {
+    // if clicked not a picture => do nothing, if not go further
+    if (e.target.nodeName !== 'IMG') {
+        return
+    }
+    
     e.preventDefault();
     const clickedImageAddress = e.target;
                
@@ -43,9 +48,18 @@ function onPictureClick(e) {
     //find current image clicked:
     const galleryItemsOriginals = galleryItems.map(({ original }) => original);
     currentPosInGallery = galleryItemsOriginals.indexOf(imgInModalShow.src);
+
+    //modal window buttons handling
+    window.addEventListener('keydown', onKeyDown);
+
+    //click on grey handling
+    lightboxRef.addEventListener('click', onCloseBtnClick);
 }
 
 galleryUlRef.addEventListener('click', onPictureClick);
+
+//for modal close on click -> div.lightbox__overlay 
+const lightboxRef = document.querySelector('div.lightbox__overlay');
 
 //on close modal button click
 const closeBtnRef = document.querySelector('button[data-action="close-lightbox"]');
@@ -56,7 +70,8 @@ function onCloseBtnClick() {
     
     imgInModalShow.src = '';
     imgInModalShow.alt = '';
-    //closeBtnRef.removeEventListener('click', onCloseBtnClick);   
+    
+    lightboxRef.removeEventListener('click', onCloseBtnClick);
 }
 
 closeBtnRef.addEventListener('click', onCloseBtnClick);
@@ -69,6 +84,8 @@ function onKeyDown(e) {
         
         imgInModalShow.src = '';
         imgInModalShow.alt = '';
+
+        window.removeEventListener('keydown', onKeyDown);
     }
     else if (e.key == 'ArrowLeft') {
         if (currentPosInGallery > 0) {
@@ -90,10 +107,3 @@ function onKeyDown(e) {
 
      }
 };
-
-//modal window buttons handling
-window.addEventListener('keydown', onKeyDown);
-
-//modal close on click -> div.lightbox__overlay 
-const lightboxRef = document.querySelector('div.lightbox__overlay');
-lightboxRef.addEventListener('click', onCloseBtnClick);
