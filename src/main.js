@@ -26,7 +26,6 @@ galleryUlRef.insertAdjacentHTML('afterbegin', allGalleryLiMarkup);
 
 // on image click, put attributes to show image in modal window
 let currentPosInGallery;
-let lastImgOpen;
 
 const lightBoxRef = document.querySelector('.js-lightbox');
 const imgInModalShow = document.querySelector('.lightbox__image');
@@ -72,6 +71,7 @@ function onCloseBtnClick() {
     imgInModalShow.alt = '';
     
     lightboxRef.removeEventListener('click', onCloseBtnClick);
+    window.removeEventListener('keydown', onKeyDown);
 }
 
 closeBtnRef.addEventListener('click', onCloseBtnClick);
@@ -80,12 +80,9 @@ closeBtnRef.addEventListener('click', onCloseBtnClick);
 function onKeyDown(e) {
         
     if (e.key == 'Escape') {
-        lightBoxRef.classList.toggle("is-open");
         
-        imgInModalShow.src = '';
-        imgInModalShow.alt = '';
-
-        window.removeEventListener('keydown', onKeyDown);
+        onCloseBtnClick();
+       
     }
     else if (e.key == 'ArrowLeft') {
         if (currentPosInGallery > 0) {
